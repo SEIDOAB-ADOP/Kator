@@ -1,0 +1,71 @@
+Kata02_IEquatable_IComparable_Factory
+
+Du nu enkapsulera en lista av Medlemmar i ett Hotell lojalitets program. Du gör detta genom att skapa en class som
+representerar en medlem (Member) och en class som innehåller en lista på medlemmar (MemberList)
+Du ska även implementera relevanta Interfaces för Member och MemberList samt IEquatable<IMember> and IComparable <IMember>
+för .NET list hantering, tex Sort(). Slutligen initierar du en instanser av Member och MemberList initierade med
+relevant men slumpmässig data genom att en class Factory.
+
+1. Skapa ett nytt projekt som heter "Kata02".
+
+2. Deklarera ett interface, IMember, som definierar
+	- Medlemmens för- och efternamn (property get; set;) av typen string
+	- Medlemmens bonusnivå (property get; set;) av typen MemberLevel { Platinum, Gold, Silver, Blue} 
+	- Datum medlemskapet startades (property get; set;) av typen DateTime
+	- Tänk på att deklarera enum typen MemberLevel i samma fil som IMember då de hör tillsammans
+
+3. Skriv definitionen av IMember så att IMember måste implementera IEquitable<IMember> och IComparable<IMember>
+
+4. Implementera IMember i en class Member
+	- Implementera IComparable så att medlemmar sorteras efter bonusnivå, efternamn, förnamn, medlemsdatum
+	- Implementera en constructor som skapar tom instans
+	- Implementera en copy constructor
+	- Override ToString() för att skriva ut medlemsdata
+	- Implementera IEquitable<>
+		- Kom ihåg legacy:
+			- override bool Equals(object obj) => Equals(obj as IMember);
+			- override int GetHashCode() => ....;
+
+5. Deklarera en class factory i Member som skapar en tom instans, initierar den med random data.
+	- I Member deklarera en public static class Factory
+	- I Factory deklarera en metod: public static Member CreateRandom() som:
+		- Skapa lokala variabler för alla properties och tilldela dessa slumpmässiga värden
+		- Skapar en instans av Member och genom object initialization, new Member {..}, sätter alla properties
+			med hjälp av de lokala variablerna
+		- Returnerar den nyskapade och ifyllda instansen
+		
+6. Skriv några kodrader i Program.Main() som testar att skapa instanser av Member.
+	- För member variablerna använd typen IMember
+
+7. Deklarara ett Interface IMemberList som definierar
+	- Metod, Count(), som returnerar totala antalet medlemmar
+	- Metod, Count(int year), som returnerar totala antalet medlemmar skapade under året "year"
+	- Metod, Sort()
+	- en property class indexer som returnerar en IMember
+
+8. Implementera IMemberList i en class, MemberList
+	- Förutom när du skapar en instans av Member, använd typen IMember
+	- innehåller en tom private List<IMember> _members = new List<IMember>
+	- En tom constructor
+	- Implementera en copy constructor
+	- Implementera class indexern så att 
+	- Override ToString() för att skriva ut IMembers i kluster om 10 medlemmar
+
+9. Deklarera en class factory i MemberList som skapar en tom instans med NrOfMembers, och initierar den med random data
+	- I MemberList deklarera en public static class Factory
+	- I Factory deklarera en public static Member CreateRandom(int NrOfMembers) som
+		- Skapar en instans av MemberList med NrOfMembers medlemmar
+		- I en Loop skapar och lägger till members genom att köra Member.Factory.CreateRandom()
+		- Returnerar den nyskapade och ifyllda instansen av MemberList
+
+10. Skriv några kodrader i Program.Main() som skapar en sorterad medlemslista för Hilton med 20 medlemmar
+   och en för Radisson med 20 medlemmar
+   - list variablerna använd IMemberList
+
+11. Skriv ut Medlem index 0 från Radisson och Hilton listan 
+
+
+Träna, Träna, Träna. Ovan moment ska jobbas in i långtidsminne och muskelminne
+Lycka till!
+
+ 

@@ -1,0 +1,60 @@
+Kata05_Delegates_Lamda
+
+Bygger vidare på Kata02 och övar delegates och Lamda funtioner.
+När du gör Katan passa på att öva Git; t ex, git commit, git squash, git revert, git reset, git branch, git checkout, 
+git push, git fetch, git pull, git merge, git cherrypick, git ammend
+
+1. Skapa ett ny projekt som heter "Kata05_Delegates_Lamda". Kopiera koden från Kata02, kompilera och kör så att du har en stadig startpunkt.
+2. Ändra namespace i alla filer i projektet till "Kata05_Delegates_Lamda". Kompilera och kör.
+3. Skapa en ny Git repository lokalt och på Github
+4. Skapa en Git Branch som du kallar Delegates. Gör git checkout till den nyskapade Branchen
+
+Nu har du en körbar startpunkt
+------------------------------
+
+5. Vi vill nu möjligöra med en delegate metod göra någonting med varje nyskapad member i MemberList, allteftersom listan skapas.
+   I MemberList.CreateRandom():
+   - lägg till en parameter, newMemberAction av typen Action<IMember>
+   - Efter att en nyskapad member är inlagd i listan, kör delegate metoden NewMemberAction(...) med den nyskapade members som
+     parameter
+
+6. Nu kan du i annan del av programmet besluta vad som ska göras efter varje nyskapad medlem. Detta görs genom att du
+   skapar en delegate metod som du skickar med i anropet CreateRandom(..).
+   Därmed är det här du beslutar vad som ska göras, inte i MemberList. Ett typiskt användande av delegates
+
+7. I Program.Main, skapa en statisk metod, RadissonGreetings(..) som:
+   - skriver ut ett välkomsmeddelande till en ny Radisson medlem.
+   - Tänk på vilken signatur RadissonGreetings måste ha (dvs Action<IMember>)
+   - Skicka med RadissonGreetings som parameter i anropet MemberList.Factory.CreateRandom(...) där du skapar
+     listan med Radisson medlemmar
+
+8. Upprepa steg 7, med en ny metod som skriver ut en hälsning till listan med Hilton medlemmar
+
+9. Kompilera och kör.
+
+Du har nu gett varje ny medlem ett välkomsmeddelande genom att använda två delegate metoder, RadissonGreetings() och HiltonGreetings()
+---------------------------------------------------------------------------
+
+10. Istf de två delegate metoderna kan du använda lamda funktioner direkt i anropet MemberList.Factory.CreateRandom(...).
+    Då kan du även fånga eller capture an variabel i koden Program.Main som används i lamda funktionen
+
+11. I Program.Main
+    - deklarera int nrBlue = 0;
+    - skapa en ny lista av 10 Scandic medlemmar med anropet MemberList.Factory.CreateRandom(...)
+    - skicka med som delegate parametern en lamda function som räknar upp nrBlue ifall medlemmen har Blue nivå
+
+12. I Program.Main efter att listan med scandic medlemmar är skapad, skriv ut den och antalet Blue medlemmar
+    Kompilera och kör.
+
+
+Använd en delegate för att räkna antalet medlemmar som matchar ett visst kritera
+----------------------------------------------------------------------------
+13. I classen MemberList skriv en Metod, public int NrOfMembers(Func<IMember, bool> match) {... din kod ...}.
+    Metoden tar en delegare, match, som parameter och som loopar över
+    _members och räknar antaler medlemmar som matchar kriteriet i match()
+
+14. I Program
+    - deklarera en metod IsGold som följer reglerna av delegate typen IsMatch och returnerar true om
+      en medlem har Gold nivå, annars false.
+    - Anropa RadissonMember.NrOfMembers(IsGold) och HiltonMembers.NrOfMembers(IsGold) för att räkna antalet guldmedlemmar
+    - Prova med att använda Lambda direkt i anropet NrOfMembers(...) istf delegate metoden IsGold

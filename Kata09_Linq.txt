@@ -1,0 +1,22 @@
+﻿Kata09_Linq
+
+Kata09 övar Linq join på en simulerad kund och orderlista.
+När du gör Katan passa på att öva Git; t ex, git commit, git squash, git revert, git reset, git branch, git checkout, 
+git push, git fetch, git pull, git merge, git cherrypick, git ammend
+
+1. Undersök IOrder, Order, ICustomer, Customer och förstå uppbygganden och skapandet av instanser med slumpmässig data.
+2. I Program.Main skapa en Lista av kunder List<ICustomer> och ordrar List<IOrder>
+3. Skapa 10 slumpmässiga kunder och för varje kund lägg in slumpmässigt mellan 0 och 5 ordrar
+	- använd Customer.Factory.CreateRandom() och Order.Factory.CreateRandom() in nestade loopar
+
+4. Nu kan du börja köra ett antal Linq operators för att undersöka orderlistan.
+
+I Program.Main skriv kod för:
+
+5.    Antalet kunder, Antalet kunder i Sverige, äldsta kundens födelsedag, Yngsta kundens födelsedag
+6.    Använd GroupBy för att lista antalet kunder per land
+7.    Antalet kunder med ett efternamn som slutar på 'son'
+
+8.    Antalet ordrar och totalt ordervärde av de 5 största ordrarna
+9.    Använd Join för att lista kund och ordervärde för de 5 största ordrarna
+10.   Använd GroupJoin för att lista de 5 största kunderna baserat på ordervärde

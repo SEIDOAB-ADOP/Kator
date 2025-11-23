@@ -1,0 +1,88 @@
+Kata04_Immutabilty
+
+Bygger vidare på Kata02 och övar Immutability.
+När du gör Katan passa på att öva Git; t ex, git commit, git squash, git revert, git reset, git branch, git checkout, 
+git push, git fetch, git pull, git merge, git cherrypick, git ammend
+
+1. Skapa ett ny projekt som heter "Kata04_Immutabilty". Kopiera koden från Kata02, kompilera och kör så att du har en stadig startpunkt.
+2. Ändra namespace i alla filer i projektet till "Kata4_Immutabilty". Kompilera och kör.
+3. Skapa en ny Git repository lokalt och på Github
+4. Skapa en Git Branch som du kallar Immutability. Gör git checkout till den nyskapade Branchen
+
+Nu har du en körbar startpunkt
+------------------------------
+
+5. I IMember ta bort set; från alla properties. Nu har du gjort så att omvärlden inte kan sätta nya värden till dina properties.
+   Ta bort kravet att IEquatable<IMember> ska implementeras, det gör det enklare.
+
+6. Gör rename på både class och filen Member till ImmClassMember.
+
+7. Vi ska nu göra class ImmClassMember Immutable
+    - Ta bort all kod som hör till IEquatable<IMember> implementationen
+    - Gör set; i alla properties till private set; Nu kan bara denna classen göra ändringar
+    - gör en operator overload på == och !=
+    - Se till att du har en copy constructor om du inte gjorde den i urspungsprojektet
+    - Lägg till {GetType().Name} i ToString() så att även typen skrivs ut, dvs ImmClassMember
+
+8. Skapa några property Set metoder i fluent syntax format för att sätta respektive property värde. Metoderna ska:
+    - skapa en kopia av instansen med hjälp av copy constructorn
+    - sätta property värdet i kopian
+    - returnera kopian
+
+9. Gör punkt 8 för:
+    - public ImmClassMember SetFirstName(string name) {...}
+    - public ImmClassMember SetFirstName(string name) {...}
+    - public ImmClassMember SetLevel(MemberLevel level) {...}
+
+10. I Program.Main skapa en immutable medlem, dvs instans av ImmClassMember genom
+    - var member1 = ImmClassMember.Factory.CreateRandom();
+    - ändra flera properties i member1 genom att använda property Set metoderna och fluent syntax formatet.
+      ... = member1.SetFirstName("Karl").SetLastName("Petterson");
+    - Tänk på att immutability gör att du för varje ändring får en ny instans, dvs member1 ändras aldrig
+
+11. Kompilera och kör.
+
+Grattis, du har nu gjort classen ImmClassMember immutable
+---------------------------------------------------------
+
+Du såg att det är ganska mycket kod som ska skrivas för att uppnå immutability.
+Nu ska vi göra samma sak fast med record.
+
+12. Kopiera classen ImmClassMember till en ny class och fil som du kalla ImmRecordMember
+
+13. Gör om class ImmRecordMember till en record genom att istf
+    class ImmClassMember : IMember
+    - skriver du
+    record immRecordMember (string FirstName, string LastName, MemberLevel Level, DateTime Since) : IMember
+
+14. Nu kan du ta bort mycket av koden du skrev eftersom detta skapas automatiskat av kompilatorn när du använder record.
+    Ta bort
+        - alla properties då dessa är skrivna som parametrar i punkt 13 och blir då automatiskt property {get; init;}
+        - ta bort alla property Set metoderna
+        - ta bort copy contructorn och default constructorn
+
+15. I Class factory ändra
+        var member = new ImmRecordMember { FirstName = firstname, LastName = lastname, Level = level, Since = since };
+        - till
+        var member = new ImmRecordMember (firstname, lastname, level, since);
+
+16. Du ska nu i ImmRecordMember enbart ha kod kvar för
+        - Implementera IComparable
+        - ToString() , denna hade du kunnat ta bort och isåfall hade record varianten användts. Prova gärna
+        - Class factory
+
+17. I Program.Main skapa en immutable medlem, dvs instans av ImmRecordMember genom
+        - var member2 = ImmRecordMember.Factory.CreateRandom();
+        - ändra flera properties i member1 genom att använda property Set metoderna och fluent syntax formatet.
+       ... = member2 with { FirstName = "Karl", LastName = "Petterson" };
+
+18. Kompilera och kör.
+
+Bra jobbat! du har nu gjort classen Member immutable både som class, ImmClassMember, och
+som en record, ImmRecordMember
+---------------------------------------------------------
+
+19. Eftersom både ImmClassMember och ImmRecordMember implementerar IMember och medlemslistan i MemberList
+    är av typen IMember kan du nu lägga in instanser av både ImmClassMember och ImmRecordMember i listan.
+    - ändra i MemberList class factory så att när en random lista skapas är varannat element ImmRecordMember och
+      varannat är ImmClassMember

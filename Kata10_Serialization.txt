@@ -1,0 +1,22 @@
+Kata10_Serialization
+
+Kata10 bygger på Kata08 och övar att serializera en simulerad orderlista till xml och json
+
+1. Skapa ett ny projekt som heter "Kata10_Serialization". Kopiera koden från Kata08, kompilera och kör så att du har en stadig startpunkt.
+2. Ändra namespace i alla filer i projektet till "Kata10_Serialization". Kompilera och kör.
+3. Skapa en ny Git repository lokalt och på Github
+4. Skapa en Git Branch som du kallar Enumerable. Gör git checkout till den nyskapade Branchen
+
+Nu har du en körbar startpunkt
+------------------------------
+
+1. i IOrder och Order ändra OrderDate så att den har både get och set public
+2. Skapa en metod static string fname(string name) {din kod} som använder de två klasserna Environment 
+   och Path för att skapa en långt filnamn till rätt plattformsoberoende placering av av dina filer
+
+3. Använd Linq för att skapa en lista av de 1000 största ordrarna
+4. Serializera de 1000 största ordrarna i JSON format genom att använda klasserna Stream, TextWriter och JsonSerializer
+5. Serializera de 1000 största ordrarna i i XML format genom att använda klasserna XmlSerializer och Stream
+
+6. Öppna xml och json filerna i Word
+7. Öppna xml och json filerna i Excel

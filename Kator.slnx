@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="Kata02_IEquatable_IComparable_Factory\Kata02_IEquatable_IComparable_Factory.csproj" />
+  <Project Path="Kata03_Inheritance\Kata03_Inheritance.csproj" />
+  <Project Path="Kata04_Immutability\Kata04_Immutability.csproj" />
+  <Project Path="Kata05_Delegates_Lamda\Kata05_Delegates_Lamda.csproj" />
+  <Project Path="Kata06_Events\Kata06_Events.csproj" />
+  <Project Path="Kata07_IEnumerable\Kata07_IEnumerable.csproj" />
+  <Project Path="Kata08_Linq\Kata08_Linq.csproj" />
+  <Project Path="Kata09_Linq\Kata09_Linq.csproj" />
+  <Project Path="Kata10_Serialization\Kata10_Serialization.csproj" />
+</Solution>

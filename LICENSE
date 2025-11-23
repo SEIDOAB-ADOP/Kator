@@ -1,0 +1,31 @@
+
+📄 Seido AB Educational License Agreement
+
+Copyright © 2025 Seido AB. All rights reserved.
+
+This software is licensed under the following terms:
+
+1. Permitted Use
+The code in this repository may be used, modified, and executed only by students enrolled in a course taught by Seido AB, during and after the course, for the students own educational purpose.
+
+2. Template Branch Exception
+A specific branch of this repository, named seido-template, may exists. 
+• Students enrolled in Seido AB courses may use this branch as a starting point for their own projects.
+• These derivative projects may be used for educational and commercial purposes, provided they do not include or rely on other parts of the repository not covered by this exception.
+• Attribution to Seido AB is required in any public or commercial use of code derived from this template branch. This may be in the form of a notice in documentation, source code headers, or project metadata.
+
+3. Restrictions• Any other use—including commercial use, redistribution, or incorporation into other projects—requires prior written approval from Seido AB.
+• The software may not be sublicensed, sold, or otherwise distributed outside the scope of the permitted use.
+
+4. Ownership and Rights• All intellectual property rights, copyrights, and related rights remain the sole property of Seido AB.
+• No part of this license shall be interpreted as a transfer of ownership.
+
+5. Disclaimer
+This software is provided “as is” without warranty of any kind. Seido AB shall not be liable for any damages arising from its use.
+This disclaimer applies to all branches, including the designated template branch, named seido-template.
+
+6. Contact Information
+For licensing inquiries, permissions, or questions, please contact:
+Seido AB
+🌐 https://seido.se
+📧 info@seido.se

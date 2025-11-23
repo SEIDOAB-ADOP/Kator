@@ -1,0 +1,35 @@
+Kata07_IEnumerable
+
+Bygger vidare på Kata02 och övar IEnumrable och yield return.
+När du gör Katan passa på att öva Git; t ex, git commit, git squash, git revert, git reset, git branch, git checkout, 
+git push, git fetch, git pull, git merge, git cherrypick, git ammend
+
+1. Skapa ett ny projekt som heter "Kata07_IEnumerable". Kopiera koden från Kata02, kompilera och kör så att du har en stadig startpunkt.
+2. Ändra namespace i alla filer i projektet till "Kata07_IEnumerable". Kompilera och kör.
+3. Skapa en ny Git repository lokalt och på Github
+4. Skapa en Git Branch som du kallar Enumerable. Gör git checkout till den nyskapade Branchen
+
+Nu har du en körbar startpunkt
+------------------------------
+
+
+5. I Program.Main()
+	Försök att iterera över RadissonMembers och HiltonMembers med en foreach loop.
+	Du kommer att få se att kompilatorn klagar på att MemberList inte kan ge en Enumerator.
+	Så låt oss fixa detta.
+
+6. Låt MemberList implementera IEnumerable<IMember>
+   - namespaces System.Collections och System.Collections.Generic behöver användas för implementationen
+
+7. Implementera: public IEnumerator<T> GetEnumerator() med en loop som itererar över den privata listan _members och
+   för varje element gör yield return;
+
+8. Implementera legacy: IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+   Tänk på att namespace System.Collections behöver användas för detta steg
+
+9. I Program.Main()
+	- Iterera över HiltonMembers med en foreach loop.
+
+10. Undersök med att skriva "RadissonMembers." så att du ser vilket utbud av funktioner i Linq 
+    som nu finns tillgängliga för dig att använda på alla instanser av MemberList
+

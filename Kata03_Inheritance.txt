@@ -1,0 +1,116 @@
+Kata03_Inheritance
+
+Bygger vidare på Kata02 och övar arv och polymorfism
+Vi ska också öva lite mer avancerad Git;
+  - git commit, git squash, git revert, git reset, git branch, git checkout, git push, git fetch, git pull, git merge, git cherrypick, git ammend
+
+1. Skapa ett nytt projekt som heter "Kata03". Kopiera alla kodfiler från Kata02 in i det nya projektet
+2. Ändra namespace i alla filer i projektet till "Kata03"
+3. Skapa en ny Git repository lokalt och på Github och en git commit
+4. Skapa en Git Branch som du kallar Inheritance. Gör git checkout till den nyskapade Branchen
+
+Nu har du en körbar startpunkt
+------------------------------
+
+5. Lägg till property, public string[] Benefits { get; set; },  i IMember
+	Gör en git commit utan push
+
+6. I filen IRadissonMember.cs lägg till ett nytt interface IRadissonMember som måste implementera IMember. 
+	Lägg till, public string RadissonOnly { get; set; }, i IRadissonMember
+	Gör en git commit utan push
+
+7. I filen IHiltonMember.cs lägg till ett nytt interface IHiltonMember som måste implementera IMember. 
+	Lägg till, public string HiltonOnly { get; set; }, i IHiltonMember
+	Gör en git commit utan push - namnge din commit till Interfaces finalized
+
+8. Välj alla lokala git commits och gör en git squash. Du har nu fått en commit av allt interface byggande
+	Gör en push och jämför din lokala repo med din github repo
+
+Nu har du en kopia av "Inheritance" på GitHub
+-------------------------------------------------------
+
+9. Gör git checkout till master branch och se att urspungskoden är oförändrad. Kör ursprungskoden.
+	Gör git checkout till Inheritance för att at dig tillbaka till rätt kodbranch
+
+10. Dubbelklcika på projektfilen och ta bort nullable reference types genom att ändra till <Nullable>disable</Nullable>.
+	Gör en lokal git commit
+
+11. I class Member 
+	Implementera Benefits med en 
+	        public virtual string[] Benefits { get; set; } = { "Nothing", "Nothing" };
+	Lägg till {GetType().Name} i ToString() så att även typen skrivs ut
+	Lägg till i ToString() så att även Benefits skrivs ut
+	Gör en lokal commit och kalla den "Member implemented"
+
+12. I egen fil skapa en class RadissonMember som ärver från Member och implementerar IRadissonMember.
+	Gör override property Benefits {get; set;} 
+	virtual (i Member) och override i (RadissonMember) gör Benefits polymorfiskt
+	Implementera RadissonOnly till något Radisson specifikt. "This is Radisson only information";
+
+	Gör en lokal commit
+
+13. Deklarera en class factory i RadissonMember som skapar en tom instans, initierar den med random data.
+	- I RadissonMember deklarera en public static class Factory
+	- I Factory deklarera en metod: public static RadissonMember CreateRandom() som:
+		- skapar en lokal variable Benefits av samma typ som Benefits property och fyller i lite random data
+		- skapar en Member instans genom att anropa Member.Factory.CreateRandom();
+		- Skapar en instans av RadissonMember och genom object initialization, new RadissonMember {..}, sätter alla properties
+			från properies i Member instansen och till sist sätter Benefits till den lokala Benefits variablen
+		- Returnerar den nyskapade och ifyllda RadissonMember instansen
+	- Gör en lokal commit som du kallar "RadissonMember class implemented"
+
+
+14.	Ändra i Main() så att det skapas en instans av RadissonMember
+	Kompilera och kör programmet
+	Gör en lokal commit 
+
+
+Nu har du en körbar kod i "Inheritance". Du har även körbar kod i "master", dvs urspundskoden.
+Prova med att byta branch och kör.
+-----------------------------------
+
+15. Gå tillbaka till branch "Inheritance"
+	Repetera punkterna 13 - 15 och skapa en HiltonMember class
+	Gör en lokal commit som du kallar "HiltonMember class implemented"
+
+16. Repetera punkterna 13 - 15 och skapa en ScandicMember class
+	Gör en lokal commit som du kallar "ScandicMember class implemented"
+
+17.	Ångra ScandicMember commit genom att välja commit "HiltonMember class implemented" och gör git reset -mixed. 
+	
+Du har nu spolat tillbaka koden med alla ändringar som gjordes sedan "HiltonMember class implemented" finns i Git Changes. 
+Du kan välja vad du vill radera.
+----------------------------------------------------------------------------
+
+18. Ändra i MemberList.CreateRandom() så att varannan Member i listan är Radisson och varannan Hilton.
+	Det kan du göra eftersom listan är av typen IMember
+
+19. Squash all local commits, name the Squashed commit "All hotel classes implemented"
+	Gör git push till remote repo.
+
+20. Ändra i Main() så att det skapas en memberlista på 20 medlemmar
+	Kompilera och kör
+	Gör local commit
+	Ändra namned på din local commit med git ammend
+	Gör git push till remote repo
+
+
+Nu har du nu körbar kod i branch "Inheritance"
+--------------------------------------------------------
+21. Gör git checkout till master branch och se urspungskoden helt oförändrad. Kör ursprungskoden.
+	Gör git checkout till Inheritance för att se din modifierade kod. Kör den modifierade koden.
+
+22.	Gör en git revert på ditt sista commit. Du ser att koden du gjorde i Main() försvann.
+	Gör en git revert igen på din senaste revert så får du tillbaka koden
+
+23. Nu när du är nöjd med din kod i branch Inheritance är det dags att göra en git merge för att slå ihop den med master branchen
+	Gör en checkout till master branchen
+	Gör git merge Inheritance into master
+	Resolve any conflicts
+	Undersök och förstå innehållet i staged changes.
+	Gör Commit staged changes.
+
+Voila!! - du har nu integrerat InheritanceRefracture i din master brach
+-----------------------------------------------------------------------
+
+24. Ta bort branchen Inheritance genom att göra em checkout till master branchen och göra delete på Inheritance

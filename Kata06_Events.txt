@@ -1,0 +1,29 @@
+Kata06_Events
+
+Bygger vidare på Kata05 och övar events.
+När du gör Katan passa på att öva Git; t ex, git commit, git squash, git revert, git reset, git branch, git checkout, 
+git push, git fetch, git pull, git merge, git cherrypick, git ammend
+
+1. Skapa ett ny projekt som heter "Kata06_Events". Kopiera koden från Kata05, kompilera och kör så att du har en stadig startpunkt.
+2. Ändra namespace i alla filer i projektet till "Kata06_Events". Kompilera och kör.
+3. Skapa en ny Git repository lokalt och på Github
+4. Skapa en Git Branch som du kallar Events. Gör git checkout till den nyskapade Branchen
+
+Nu har du en körbar startpunkt
+------------------------------
+
+5. I MemberList
+    - deklarera en event handler: public EventHandler<int> ListSortedEvent;
+    - int parametern ska innehålla antalet element i listan som sorterades
+    - skriv en metod, void OnListSorted(int NrOfItems), som avfyrar eventet ListSortedEvent
+    - Modifiera koden i Sort() så att OnListSorted anropas efter genomförd sortering
+
+6. I Program
+    - skriv en Metod, static void ListSortedEventHandler(object? sender, int NrOfItems), som skriver ut att NrOfItems är sorterade
+    - I Main() Tilldela HiltonMemberList.ListSortedEvent din nyskrivna metod ListSortedEventHandler, innan du gör Sort på listan
+    - Tilldela RadissonMemberList.ListSortedEvent din nyskrivna metod ListSortedEventHandler, innan du gör Sort på listan
+
+7. Kör programet och se att Eventen hanteras och resultatet skrivs ut.
+
+
+    
