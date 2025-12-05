@@ -20,15 +20,17 @@ public interface IMember : IEquatable<IMember>, IComparable<IMember>
     public string LastName { get; set; }
     public MemberLevel Level { get; set; }
     public DateTime Since { get; set; }
+    public string Hotel { get; set; }
 }
 ```
 
 **Key points:**
 - Declare `MemberLevel` enum in the same file as `IMember` (they belong together)
 - Interface inherits from `IEquatable<IMember>` and `IComparable<IMember>`
+- Added `Hotel` property to track which hotel the member belongs to
 
 ### 3. Member Class Implementation
-Implement the `Member` class with:
+Implement the `Member` class as **public** with:
 
 #### IComparable Implementation
 Sort members by:
@@ -61,6 +63,20 @@ public override bool Equals(object obj) => Equals(obj as IMember);
 public override int GetHashCode() => 
     (this.FirstName, this.LastName, this.Level, this.Since).GetHashCode();
 ```
+
+#### Properties
+```csharp
+public class Member : IMember
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public MemberLevel Level { get; set; }
+    public DateTime Since { get; set; }
+    public string Hotel { get; set; } = "No Hotel";
+}
+```
+
+**Note:** The `Hotel` property has a default value of `"No Hotel"` if not specified.
 
 #### Constructors
 - Default constructor: `public Member() { }`
@@ -120,19 +136,22 @@ Define an interface for managing member collections:
 public interface IMemberList
 {
     public IMember this[int idx] { get; }  // Indexer
-    int Count();
-    int Count(int year);
-    void Sort();
+    public int Count();
+    public int Count(int year);
+    public void Sort();
+    public void Add(IMember member);
 }
 ```
 
+**Note:** All interface methods are explicitly marked as `public`, and an `Add()` method has been added to support adding members to the list.
+
 ### 7. MemberList Class Implementation
-Implement `MemberList` with:
+Implement `MemberList` as **public class** with:
 
 ```csharp
-class MemberList : IMemberList
+public class MemberList : IMemberList
 {
-    private List<IMember> _members = new List<IMember>();
+    List<IMember> _members = new List<IMember>();
     
     public IMember this[int idx] => _members[idx];
     
@@ -141,6 +160,8 @@ class MemberList : IMemberList
     public int Count(int year) => _members.Count(item => item.Since.Year == year);
     
     public void Sort() => _members.Sort();
+    
+    public void Add(IMember member) => _members.Add(member);
     
     public override string ToString()
     {
@@ -157,29 +178,13 @@ class MemberList : IMemberList
 ```
 
 **Key implementation notes:**
+- Class is marked as `public` for external access
 - Use `IMember` type everywhere except when creating new `Member` instances
 - Indexer provides read-only access to members
+- `Add()` method allows adding individual members to the list
 - `ToString()` outputs members in clusters of 10
 
-### 8. Factory Pattern - MemberList.Factory
-Create a factory for generating member lists with random data:
-
-```csharp
-public static class Factory
-{
-    public static MemberList CreateRandom(int NrOfItems)
-    {
-        var memberlist = new MemberList();
-        for (int i = 0; i < NrOfItems; i++)
-        {
-            memberlist._members.Add(Member.Factory.CreateRandom());
-        }
-        return memberlist;
-    }
-}
-```
-
-### 9. Copy Constructor - MemberList
+### 8. Copy Constructor - MemberList
 The copy constructor demonstrates three types of copies:
 
 ```csharp
@@ -196,40 +201,61 @@ public MemberList(MemberList org)
 }
 ```
 
-### 10. Program.Main() - Complete Example
+### 9. Program.Main() - Complete Example
 
 ```csharp
-// Create and sort Hilton members
-IMemberList HiltonMembers = MemberList.Factory.CreateRandom(20);
-HiltonMembers.Sort();
-Console.WriteLine(HiltonMembers);
+// Create individual members
+IMember member1 = Member.Factory.CreateRandom();
+IMember member2 = Member.Factory.CreateRandom();
+IMember member3 = new Member((Member)member1); // Copy constructor
 
-// Create and sort Radisson members
-IMemberList RadissonMembers = MemberList.Factory.CreateRandom(20);
-RadissonMembers.Sort();
-Console.WriteLine(RadissonMembers);
+// Create and populate a member list
+IMemberList hotelMembers = new MemberList();
+for (int i = 0; i < 20; i++)
+{
+    hotelMembers.Add(Member.Factory.CreateRandom());
+}
+hotelMembers.Sort();
+Console.WriteLine(hotelMembers);
 
 // Test indexer
-Console.WriteLine($"Hilton member[0]: {HiltonMembers[0]}");
-Console.WriteLine($"Radisson member[0]: {RadissonMembers[0]}");
+Console.WriteLine($"Hotel member[0]: {hotelMembers[0]}");
 
 // Test counter
-Console.WriteLine($"Nr HiltonMembers joined {HiltonMembers[0].Since.Year}: " +
-    $"{HiltonMembers.Count(HiltonMembers[0].Since.Year)}");
+Console.WriteLine($"Nr hotelMembers joined {hotelMembers[0].Since.Year}: " +
+    $"{hotelMembers.Count(hotelMembers[0].Since.Year)}");
 
 // Test deep copy
-IMemberList copyList = new MemberList((MemberList)HiltonMembers);
+IMemberList hotelMembersCopy = new MemberList((MemberList)hotelMembers);
+
+Console.WriteLine("Before change:");
+Console.WriteLine(hotelMembers[10]);
+Console.WriteLine(hotelMembersCopy[10]);
+
+hotelMembersCopy[10].FirstName = "Changed";
+hotelMembersCopy[10].LastName = "Changed";
+
+Console.WriteLine("After change:");
+Console.WriteLine(hotelMembers[10]);
+Console.WriteLine(hotelMembersCopy[10]);
 ```
+
+**Key changes from earlier versions:**
+- Removed `MemberList.Factory.CreateRandom()` - members are now added individually using `Add()`
+- Single member list instead of separate Hilton/Radisson lists
+- Deep copy test demonstrates that changes to the copy affect the original (shallow copy of member objects)
 
 ## Key Learning Points
 
 1. **Interface Design**: Define contracts with `IEquatable<T>` and `IComparable<T>` for standard .NET list operations
 2. **Sorting**: Implement `CompareTo()` for multi-level sorting logic
 3. **Equality**: Use tuple comparison for clean `Equals()` implementation
-4. **Factory Pattern**: Create nested static Factory classes for object initialization
+4. **Factory Pattern**: Create nested static Factory classes for object initialization with random data
 5. **Random Data**: Use `TimeSpan` for clean random date generation
 6. **Copy Strategies**: Understand reference, shallow, and deep copying
 7. **Type Usage**: Prefer interface types (`IMember`, `IMemberList`) in variable declarations
+8. **Public Access**: Mark classes as `public` when they need to be accessed from other assemblies
+9. **Default Values**: Use property initializers for default values (e.g., `Hotel = "No Hotel"`)
 
 ## Practice Goals
 
