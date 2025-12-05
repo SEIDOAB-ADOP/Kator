@@ -28,16 +28,18 @@ Console.WriteLine("\nTest counter");
 Console.WriteLine($"Nr hotelmembers joined {hotelMembers[0].Since.Year}: " +
     $"{hotelMembers.Count(hotelMembers[0].Since.Year)}");
 
-Console.WriteLine("\nTest the deep copy using copy constructor");
+Console.WriteLine("\nTest the deep copy and IEquatable using copy constructor");
 IMemberList hotelMembersCopy = new MemberList((MemberList)hotelMembers);
 
 Console.WriteLine("Before change:");
 Console.WriteLine(hotelMembers[10]);
 Console.WriteLine(hotelMembersCopy[10]);
+Console.WriteLine(hotelMembers[10].Equals(hotelMembersCopy[10]));
 
 hotelMembersCopy[10].FirstName = "Changed";
 hotelMembersCopy[10].LastName = "Changed";
 Console.WriteLine("After change:");
 Console.WriteLine(hotelMembers[10]);
 Console.WriteLine(hotelMembersCopy[10]);
+Console.WriteLine(hotelMembers[10].Equals(hotelMembersCopy[10]));
 
