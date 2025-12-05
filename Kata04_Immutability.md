@@ -18,7 +18,7 @@ Change the namespace in all files to `Kata04_Immutability`. Compile and run.
 ### 3. Update IMember Interface
 Modify the `IMember` interface to support immutability:
 
-1. **Change all properties from `set` to `init`:**
+**Change all properties from `set` to `init`:**
 ```csharp
 public interface IMember : IEquatable<IMember>, IComparable<IMember>
 {
@@ -27,17 +27,13 @@ public interface IMember : IEquatable<IMember>, IComparable<IMember>
     public MemberLevel Level { get; init; }
     public DateTime Since { get; init; }
     public string Hotel { get; init; }
-    
-    public IMember SetFirstName(string name);
-    public IMember SetLastName(string name);
-    public IMember SetLevel(MemberLevel level);
 }
 ```
 
 **Key points:**
 - `init` accessors allow property values to be set only during object initialization
 - External code cannot modify properties after creation
-- Added method signatures for fluent-style value changes that return new instances
+- The interface requires `IEquatable<IMember>` and `IComparable<IMember>` implementation
 
 ### 4. Rename Member to ImmClassMember
 Rename both the class and the file from `Member` to `ImmClassMember`.
@@ -66,17 +62,7 @@ public class ImmClassMember : IMember
 2. Change all properties to use `init` instead of `set`
 3. Properties can now only be set during object initialization
 
-### 6. Add Operator Overloads
-Add equality operators for convenient comparison:
-
-```csharp
-#region operator overload
-public static bool operator ==(IMember left, ImmClassMember right) => left.Equals(right);
-public static bool operator !=(IMember left, ImmClassMember right) => !left.Equals(right);
-#endregion
-```
-
-### 7. Ensure Copy Constructor Exists
+### 6. Ensure Copy Constructor Exists
 Add or verify the copy constructor:
 
 ```csharp
@@ -92,7 +78,7 @@ public ImmClassMember(ImmClassMember src)
 
 **Note:** Copy constructor is essential for creating modified copies of immutable objects.
 
-### 8. Create Value Change Methods (Fluent Syntax)
+### 7. Create Value Change Methods (Fluent Syntax)
 Add methods that return new instances with modified values:
 
 ```csharp
@@ -110,7 +96,7 @@ public ImmClassMember SetLevel(MemberLevel level) => new ImmClassMember(this) { 
 
 **Key insight:** The original instance is never modified - each change creates a new object.
 
-### 9. Test Immutable Class
+### 8. Test Immutable Class
 In `Program.cs`, test the immutable class:
 
 ```csharp
@@ -130,7 +116,7 @@ Compile and run.
 
 **Observation:** Creating immutable classes requires significant boilerplate code. C# records provide a more concise approach.
 
-### 10. Create ImmRecordMember
+### 9. Create ImmRecordMember
 Create a new file `ImmRecordMember.cs` with a record type:
 
 ```csharp
@@ -148,21 +134,25 @@ public record ImmRecordMember(string FirstName, string LastName, MemberLevel Lev
             return FirstName.CompareTo(other.FirstName);
         return Since.CompareTo(other.Since);
     }
+    
+    // Only needed because of IEquatable<IMember> interface requirement
+    public bool Equals(IMember other) => this == (ImmRecordMember)other;
     #endregion
 
     public override string ToString() => 
-        $"{GetType().Name}: {FirstName} {LastName} is a {Level} member since {Since.Year}";
+        $"{FirstName} {LastName} is a {Level} member since {Since.Year}";
 }
 ```
 
 **What records provide automatically:**
 - Properties with `{ get; init; }` accessors from parameters
 - Copy constructor (protected)
-- `Equals()` and `GetHashCode()` based on property values
+- `Equals()` and `GetHashCode()` based on property values (but you need explicit `Equals(IMember)` for interface)
 - `with` expression support for creating modified copies
 - Deconstruction support
+- `==` and `!=` operators for value equality
 
-### 11. Simplify Record Code
+### 10. Simplify Record Code
 Records eliminate the need for:
 - ❌ Explicit property declarations (defined in primary constructor)
 - ❌ Property `Set` methods (use `with` expression instead)
@@ -172,16 +162,17 @@ Records eliminate the need for:
 
 **You only need:**
 - ✅ `IComparable` implementation (business logic specific)
+- ✅ `Equals(IMember)` implementation (for interface requirement)
 - ✅ `ToString()` override (optional - records have a default implementation)
 - ✅ Class factory
 
-### 12. Update Factory for Record
+### 11. Update Factory for Record
 Modify the factory to use the primary constructor:
 
 ```csharp
 public static class Factory
 {
-    public static IMember CreateRandom()
+    public static ImmClassMember CreateRandom()
     {
         var rnd = new Random();
         var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, (int)MemberLevel.Blue + 1);
@@ -204,7 +195,7 @@ public static class Factory
 }
 ```
 
-### 13. Test Immutable Record
+### 12. Test Immutable Record
 In `Program.cs`, test the record with the `with` expression:
 
 ```csharp
@@ -222,7 +213,7 @@ Compile and run.
 
 ## Working with Mixed Immutable Types
 
-### 14. Polymorphic Immutable List
+### 13. Polymorphic Immutable List
 Both `ImmClassMember` and `ImmRecordMember` implement `IMember`, so they can coexist in the same collection:
 
 ```csharp
@@ -236,7 +227,7 @@ for (int i = 0; i < 20; i++)
 Console.WriteLine(hotelMembers);
 ```
 
-### 15. Deep Copy with Mixed Types
+### 14. Deep Copy with Mixed Types
 Update `MemberList` copy constructor to handle both types:
 
 ```csharp

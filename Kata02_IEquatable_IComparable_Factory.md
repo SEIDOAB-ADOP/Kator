@@ -94,7 +94,7 @@ Create random Member instances using a nested static class:
 ```csharp
 public static class Factory
 {
-    public static Member CreateRandom()
+    public static IMember CreateRandom()
     {
         var rnd = new Random();
         var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, 
