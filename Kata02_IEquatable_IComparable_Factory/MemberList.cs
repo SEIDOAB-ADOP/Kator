@@ -12,17 +12,7 @@ namespace Kata02_IEquatable_IComparable_Factory
             get { return _members[idx]; }
         }
         public int Count() => _members.Count;
-        public int Count(int year)
-        {
-            int c = 0;
-            foreach (var item in _members)
-            {
-                if (item.Since.Year == year)
-                    c++;
-            }
-            return c;
-        }
-
+        public int Count(int year) =>_members.Count(item => item.Since.Year == year);
         public void Sort() => _members.Sort();
 
         public override string ToString()
@@ -60,18 +50,14 @@ namespace Kata02_IEquatable_IComparable_Factory
         //able to access and copy _members which is private
         public MemberList(MemberList org)
         {
-            //Shallow Copy
+            //Reference Copy
             _members = org._members;
-
-            //Deep copy manual
-            _members = new List<IMember>();
-            foreach (var item in org._members)
-            {
-                _members.Add(new Member((Member)item));
-            }
             
+            //Shallow Copy
+            _members = new List<IMember>(org._members);
+
             //Deep copy using Linq
-  //          _members = org._members.Select(o => new Member(o)).ToList<IMember>();
+            _members = org._members.Select(o => new Member(o)).ToList<IMember>();
         }
     }
 }

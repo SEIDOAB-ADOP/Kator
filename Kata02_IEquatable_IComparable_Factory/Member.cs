@@ -45,32 +45,6 @@ namespace Kata02_IEquatable_IComparable_Factory
             public static Member CreateRandom()
             {
                 var rnd = new Random();
-                //Alternative 1: Lazy mans alternative
-                /*
-                while (true)
-                {
-                    try
-                    {
-                        int year = rnd.Next(1980, DateTime.Today.Year + 1);
-                        int month = rnd.Next(1, 13);
-                        int day = rnd.Next(1, 31);
-
-                        var Since = new DateTime(year, month, day);
-                        var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, (int)MemberLevel.Blue + 1);
-
-                        var _fnames = "Harry, Lord, Hermione, Albus, Severus, Ron, Draco, Frodo, Gandalf, Sam, Peregrin, Saruman".Split(", ");
-                        var _lnames = "Potter, Voldemort, Granger, Dumbledore, Snape, Malfoy, Baggins, the Gray, Gamgee, Took, the White".Split(", ");
-                        var FirstName = _fnames[rnd.Next(0, _fnames.Length)];
-                        var LastName = _lnames[rnd.Next(0, _lnames.Length)];
-
-                        var member = new Member { FirstName = FirstName, LastName = LastName, Level = Level, Since = Since};
-                        return member;
-                    }
-                    catch { }
-                }
-                */
-
-                //Alternative 1: A better alternative and perhaps clearer alternative
                 var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, (int)MemberLevel.Blue + 1);
 
                 var _fnames = "Harry, Lord, Hermione, Albus, Severus, Ron, Draco, Frodo, Gandalf, Sam, Peregrin, Saruman".Split(", ");
@@ -78,24 +52,13 @@ namespace Kata02_IEquatable_IComparable_Factory
                 var FirstName = _fnames[rnd.Next(0, _fnames.Length)];
                 var LastName = _lnames[rnd.Next(0, _lnames.Length)];
 
-                bool dateOK = false;
-                DateTime Since = default;
-                while (!dateOK)
-                {
-                    try
-                    {
-                        int year = rnd.Next(1980, DateTime.Today.Year + 1);
-                        int month = rnd.Next(1, 13);
-                        int day = rnd.Next(1, 32);
+                //Random DateTime between 1980 and Today
+                var startDate = new DateTime(1980, 1, 1);
+                var endDate = DateTime.Today;
+                int range = (endDate - startDate).Days;
+                var randomDays = rnd.Next(range);
+                var Since = startDate.Add(TimeSpan.FromDays(randomDays));
 
-                        Since = new DateTime(year, month, day);
-                        dateOK = true;
-                      }
-                    catch 
-                    {
-                        dateOK = false;
-                    }
-                }
                 var member = new Member { FirstName = FirstName, LastName = LastName, Level = Level, Since = Since };
                 return member;
             }
@@ -105,7 +68,7 @@ namespace Kata02_IEquatable_IComparable_Factory
         public Member() { }
 
         #region Copy Constructor
-        public Member(Member src)
+        public Member(IMember src)
         {
             FirstName = src.FirstName;
             LastName = src.LastName;
