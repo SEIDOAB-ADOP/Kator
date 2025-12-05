@@ -10,8 +10,9 @@ namespace Kata04_Immutability
     {
         public IMember this[int idx] { get; }  
         
-        int Count();
-        int Count(int year);
-        void Sort();
+        public int Count();
+        public int Count(int year);
+        public void Sort();
+        public void Add(IMember member);
     }
 }

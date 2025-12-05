@@ -46,7 +46,7 @@ namespace Kata03_Inheritance
         #region Class Factory for creating an instance filled with Random data
         public static class Factory
         {
-            public static Member CreateRandom()
+            public static IMember CreateRandom()
             {
                 var rnd = new Random();
                 var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, (int)MemberLevel.Blue + 1);

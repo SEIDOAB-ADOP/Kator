@@ -14,7 +14,7 @@ namespace Kata02_IEquatable_IComparable_Factory
         public DateTime Since { get; set; }
         public string Hotel { get; set; } = "No Hotel";
 
-        public override string ToString() => $"{FirstName} {LastName} is a {Level} member since {Since.Year}";
+        public override string ToString() => $"{FirstName} {LastName} is a {Hotel} {Level} member since {Since.Year}";
 
         #region Implement IComparable
         public int CompareTo(IMember other)
@@ -44,7 +44,7 @@ namespace Kata02_IEquatable_IComparable_Factory
         #region Class Factory for creating an instance filled with Random data
         public static class Factory
         {
-            public static Member CreateRandom()
+            public static IMember CreateRandom()
             {
                 var rnd = new Random();
                 var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, (int)MemberLevel.Blue + 1);

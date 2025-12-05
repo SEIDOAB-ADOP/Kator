@@ -1,8 +1,6 @@
 Kata04_Immutabilty
 
 Bygger vidare på Kata02 och övar Immutability.
-När du gör Katan passa på att öva Git; t ex, git commit, git squash, git revert, git reset, git branch, git checkout, 
-git push, git fetch, git pull, git merge, git cherrypick, git ammend
 
 1. Skapa ett ny projekt som heter "Kata04_Immutabilty". Kopiera koden från Kata02, kompilera och kör så att du har en stadig startpunkt.
 2. Ändra namespace i alla filer i projektet till "Kata4_Immutabilty". Kompilera och kör.
