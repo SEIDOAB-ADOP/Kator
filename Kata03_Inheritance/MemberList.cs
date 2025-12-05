@@ -3,27 +3,15 @@ using System.Collections.Generic;
 
 namespace Kata03_Inheritance
 {
-    class MemberList : IMemberList
+    public class MemberList : IMemberList
     {
         List<IMember> _members = new List<IMember>();
 
-        public IMember this[int idx]
-        {
-            get { return _members[idx]; }
-        }
+        public IMember this[int idx] => _members[idx];
         public int Count() => _members.Count;
-        public int Count(int year)
-        {
-            int c = 0;
-            foreach (var item in _members)
-            {
-                if (item.Since.Year == year)
-                    c++;
-            }
-            return c;
-        }
-
+        public int Count(int year) =>_members.Count(item => item.Since.Year == year);
         public void Sort() => _members.Sort();
+        public void Add(IMember member) => _members.Add(member);
 
         public override string ToString()
         {
@@ -39,24 +27,21 @@ namespace Kata03_Inheritance
             return sRet;
         }
 
-        #region Class Factory for creating an instance filled with Random data
-        internal static class Factory
-        {
-            internal static MemberList CreateRandom(int NrOfItems)
-            {
-                var memberlist = new MemberList();
-                for (int i = 0; i < NrOfItems; i++)
-                {
-                    if (i % 2 == 0)
-                        memberlist._members.Add(RadissonMember.Factory.CreateRandom());
-                    else
-                        memberlist._members.Add(HiltonMember.Factory.CreateRandom());
-                 }
-                return memberlist;
-            }
-        }
-        #endregion
 
         public MemberList() { }
+
+        //Copy constructorn has to take a parameter of type MemberList to be
+        //able to access and copy _members which is private
+        public MemberList(MemberList org)
+        {
+            //Reference Copy
+            _members = org._members;
+            
+            //Shallow Copy
+            _members = new List<IMember>(org._members);
+
+            //Deep copy using Linq
+            _members = org._members.Select(o => new Member(o)).ToList<IMember>();
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace Kata03_Inheritance
         int Count();
         int Count(int year);
         void Sort();
+        public void Add(IMember member);
     }
 }

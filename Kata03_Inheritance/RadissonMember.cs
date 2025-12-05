@@ -12,26 +12,27 @@ namespace Kata03_Inheritance
     {
         public string RadissonOnly { get; set; } = "This is Radisson only information";
         public override string[] Benefits { get; set; }
+        public override string ToString() => $"{base.ToString()}\n  Benefits: {string.Join(", ", Benefits)}";
      
         #region Class Factory for creating an instance filled with Random data
         public new static class Factory
         {
-            public static Member CreateRandom()
+            public static IRadissonMember CreateRandom()
             {
-                var Benefits = "R:Free breakfast, R:Late checkin, R:One free drink in the bar".Split(',');
                 var member = Member.Factory.CreateRandom();
-                var radissonMember = new RadissonMember
+                var radissonMember = new RadissonMember(member)
                 {
-                    FirstName = member.FirstName,
-                    LastName = member.LastName,
-                    Level = member.Level,
-                    Since = member.Since,
-                    Benefits = Benefits
+                    Hotel = "Radisson",
+                    RadissonOnly = "This is Radisson only information",
+                    Benefits = "R:Free breakfast, R:Late checkin, R:One free drink in the bar".Split(',')
                 };
-
-                return radissonMember; 
+                return radissonMember;
             }
         }
+        #endregion
+
+        #region Copy Constructor
+        public RadissonMember(IMember src) : base(src) {}
         #endregion
     }
 }

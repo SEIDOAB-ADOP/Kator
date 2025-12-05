@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Kata02_IEquatable_IComparable_Factory
 {
-    class Member : IMember
+    public class Member : IMember
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public MemberLevel Level { get; set; }
         public DateTime Since { get; set; }
+        public string Hotel { get; set; } = "No Hotel";
+
         public override string ToString() => $"{FirstName} {LastName} is a {Level} member since {Since.Year}";
 
         #region Implement IComparable

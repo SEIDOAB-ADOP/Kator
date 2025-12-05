@@ -13,5 +13,6 @@ namespace Kata02_IEquatable_IComparable_Factory
         public string LastName { get; set; }
         public MemberLevel Level {get; set;}
         public DateTime Since { get; set; }
+        public string Hotel { get; set; }
     }
  }

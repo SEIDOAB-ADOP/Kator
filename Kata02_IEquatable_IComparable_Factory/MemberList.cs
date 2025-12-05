@@ -3,18 +3,15 @@ using System.Collections.Generic;
 
 namespace Kata02_IEquatable_IComparable_Factory
 {
-    class MemberList : IMemberList
+    public class MemberList : IMemberList
     {
         List<IMember> _members = new List<IMember>();
 
-        public IMember this[int idx]
-        {
-            get { return _members[idx]; }
-        }
+        public IMember this[int idx] => _members[idx];
         public int Count() => _members.Count;
         public int Count(int year) =>_members.Count(item => item.Since.Year == year);
         public void Sort() => _members.Sort();
-
+        public void Add(IMember member) => _members.Add(member);
         public override string ToString()
         {
             string sRet = "";
@@ -29,20 +26,6 @@ namespace Kata02_IEquatable_IComparable_Factory
             return sRet;
         }
 
-        #region Class Factory for creating an instance filled with Random data
-        public static class Factory
-        {
-            public static MemberList CreateRandom(int NrOfItems)
-            {
-                var memberlist = new MemberList();
-                for (int i = 0; i < NrOfItems; i++)
-                {
-                    memberlist._members.Add(Member.Factory.CreateRandom());
-                }
-                return memberlist;
-            }
-        }
-        #endregion
 
         public MemberList() { }
 

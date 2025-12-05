@@ -8,30 +8,32 @@ namespace Kata03_Inheritance
 {
     //Notice I have inheritance (Member) and interface (IHiltonMember).
     //IMember inheritance shown in IHiltonMember
-    internal class HiltonMember :Member, IHiltonMember
+    public class HiltonMember :Member, IHiltonMember
     {
         public string HiltonOnly { get; set; } = "This is Hilton only information";
         public override string[] Benefits { get; set; }
  
+        public override string ToString() => $"{base.ToString()}\n  Benefits: {string.Join(", ", Benefits)}";
+
         #region Class Factory for creating an instance filled with Random data
         public new static class Factory
         {
-            public static Member CreateRandom()
+            public static IHiltonMember CreateRandom()
             {
-                var Benefits = "H:Free breakfast, H:Room upgrade, H:Free parking".Split(',');
                 var member = Member.Factory.CreateRandom();
-                var hiltonMember = new HiltonMember
+                var hiltonMember = new HiltonMember(member)
                 {
-                    FirstName = member.FirstName,
-                    LastName = member.LastName,
-                    Level = member.Level,
-                    Since = member.Since,
-                    Benefits = Benefits
+                    Hotel = "Hilton",
+                    HiltonOnly = "This is Hilton only information",
+                    Benefits = "H:Free breakfast, H:Room upgrade, H:Free parking".Split(',')
                 };
-
                 return hiltonMember;
             }
         }
+        #endregion
+
+        #region Copy Constructor
+        public HiltonMember(IMember src) : base(src) {}
         #endregion
     }
 }

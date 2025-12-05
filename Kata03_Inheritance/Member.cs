@@ -13,9 +13,10 @@ namespace Kata03_Inheritance
         public MemberLevel Level { get; set; }
         public DateTime Since { get; set; }
 
+        public string Hotel { get; set; } = "No Hotel";
         public virtual string[] Benefits { get; set; } = { "Nothing", "Nothing" };
 
-        public override string ToString() => $"{GetType().Name}: {FirstName} {LastName} is a {Level} member since {Since.Year}\n  Benefits: {string.Join(", ", Benefits)}";
+        public override string ToString() => $"{FirstName} {LastName} is a {Hotel} {Level} member since {Since.Year}";
 
         #region Implement IComparable
         public int CompareTo(IMember other)
@@ -48,27 +49,22 @@ namespace Kata03_Inheritance
             public static Member CreateRandom()
             {
                 var rnd = new Random();
-                while (true)
-                {
-                    try
-                    {
-                        int year = rnd.Next(1980, DateTime.Today.Year + 1);
-                        int month = rnd.Next(1, 13);
-                        int day = rnd.Next(1, 31);
+                var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, (int)MemberLevel.Blue + 1);
 
-                        var Since = new DateTime(year, month, day);
-                        var Level = (MemberLevel)rnd.Next((int)MemberLevel.Platinum, (int)MemberLevel.Blue + 1);
+                var _fnames = "Harry, Lord, Hermione, Albus, Severus, Ron, Draco, Frodo, Gandalf, Sam, Peregrin, Saruman".Split(", ");
+                var _lnames = "Potter, Voldemort, Granger, Dumbledore, Snape, Malfoy, Baggins, the Gray, Gamgee, Took, the White".Split(", ");
+                var FirstName = _fnames[rnd.Next(0, _fnames.Length)];
+                var LastName = _lnames[rnd.Next(0, _lnames.Length)];
 
-                        string[] _firstnames = "Fred John Mary Jane Oliver Marie".Split(' ');
-                        string[] _lastnames = "Johnsson Pearsson Smith Ewans Andersson".Split(' ');
-                        var FirstName = _firstnames[rnd.Next(0, _firstnames.Length)];
-                        var LastName = _lastnames[rnd.Next(0, _lastnames.Length)];
+                //Random DateTime between 1980 and Today
+                var startDate = new DateTime(1980, 1, 1);
+                var endDate = DateTime.Today;
+                int range = (endDate - startDate).Days;
+                var randomDays = rnd.Next(range);
+                var Since = startDate.Add(TimeSpan.FromDays(randomDays));
 
-                        var member = new Member { FirstName = FirstName, LastName = LastName, Level = Level, Since = Since};
-                        return member;
-                    }
-                    catch { }
-                }
+                var member = new Member { FirstName = FirstName, LastName = LastName, Level = Level, Since = Since };
+                return member;
             }
         }
         #endregion
@@ -82,6 +78,7 @@ namespace Kata03_Inheritance
             LastName = src.LastName;
             Level = src.Level;
             Since = src.Since;
+            Benefits = src.Benefits;
         }
         #endregion
     }

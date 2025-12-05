@@ -16,6 +16,11 @@ Console.WriteLine(genericMember);
 
 //Notice that benefits will be correct due to Polymorfism
 Console.WriteLine("\nCreate a MemberList of Radisson and Hilton members");
-IMemberList memberList = MemberList.Factory.CreateRandom(20);
+IMemberList memberList = new MemberList();
+for (int i = 0; i < 10; i++)
+{
+    memberList.Add(RadissonMember.Factory.CreateRandom());
+    memberList.Add(HiltonMember.Factory.CreateRandom());
+}
 Console.WriteLine(memberList);
 
