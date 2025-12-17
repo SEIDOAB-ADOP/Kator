@@ -2,4 +2,5 @@
   <Project Path="Kata02_IEquatable_IComparable_Factory\Kata02_IEquatable_IComparable_Factory.csproj" />
   <Project Path="Kata03_Inheritance\Kata03_Inheritance.csproj" />
   <Project Path="Kata04_Immutability\Kata04_Immutability.csproj" />
+  <Project Path="Kata05_Delegates_Lamda/Kata05_Delegates_Lamda.csproj" />
 </Solution>
